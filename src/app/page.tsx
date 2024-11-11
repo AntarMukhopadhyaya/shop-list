@@ -9,9 +9,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Input } from "@/components/ui/input";
-import IItem from "@/models/item";
-import Image from "next/image";
+
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
@@ -61,7 +59,6 @@ export default function Home() {
         </div>
         
         <div className="mb-5 flex gap-4 justify-between">
-          <Input placeholder="Search for items" />
           {session && (
           <div className="mb-5">
             <Link href="/item/add"><Button variant="secondary">Add</Button></Link>
