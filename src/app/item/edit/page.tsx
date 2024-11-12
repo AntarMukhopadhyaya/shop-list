@@ -62,7 +62,7 @@ const Page = ( )=> {
           <div className="m-4">
             <Label htmlFor="name">Description</Label>
             <Textarea
-              value = {description}
+              value = {newDescription}
               id="description"
               onChange={(e) => setNewDescription(e.target.value)}
               required
@@ -72,7 +72,7 @@ const Page = ( )=> {
           <div className="m-4">
             <Label htmlFor="price">Price</Label>
             <Input
-              value = {price}
+              value = {newPrice}
               id="price"
               onChange={(e) => setNewPrice(parseFloat(e.target.value))}
               type="number"
@@ -84,7 +84,7 @@ const Page = ( )=> {
           <div className="m-4">
             <Label htmlFor="quantity">Quantity</Label>
             <Input
-              value = {quantity}
+              value = {newQuantity}
               onChange={(e) => setNewQuantity(parseInt(e.target.value))}
               id="quantity"
               type="number"

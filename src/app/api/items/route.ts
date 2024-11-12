@@ -11,7 +11,6 @@ export async function POST(req: NextRequest) {
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
-  return;
 }
 
 export async function GET(req: NextRequest) {

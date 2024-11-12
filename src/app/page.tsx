@@ -10,14 +10,27 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
+interface Item {
+  _id: string;
+  name: string;
+  description: string;
+  price: number;
+  quantity: number;
+
+}
+
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
+import { Input } from "@/components/ui/input";
 export default function Home() {
   
-  const [items, setItems] = useState<any[]>([]);
+  const [items, setItems] = useState<Item[]>([]);
+  const [filteredItems, setFilteredItems] = useState<Item[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
   const [error, setError] = useState("");
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
+
   useEffect(() => {
     const getItems = async () => {
       try {
@@ -27,12 +40,22 @@ export default function Home() {
         }
         const data = await resp.json();
         setItems(data);
+        setFilteredItems(data);
       } catch (err: any) {
         setError((err as Error).message);
       }
     };
     getItems();
   }, []);
+
+  useEffect(() => {
+    const filtered = items.filter((item) => 
+      item.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    setFilteredItems(filtered);
+    console.log(filtered);
+  }, [searchQuery, items]);
+
   const deleteItem = async (id: string) => {
     try {
       const resp = await fetch("/api/items", {
@@ -45,7 +68,7 @@ export default function Home() {
       if (!resp.ok) {
         throw new Error("Failed to delete item");
       }
-      setItems((prevItems) => prevItems.filter((item) => item._id != id));
+      setItems((prevItems) => prevItems.filter((item) => item._id !== id));
     } catch (err: any) {
       setError((err as Error).message);
     }
@@ -59,6 +82,7 @@ export default function Home() {
         </div>
         
         <div className="mb-5 flex gap-4 justify-between">
+          <Input placeholder="Search Items" required value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
           {session && (
           <div className="mb-5">
             <Link href="/item/add"><Button variant="secondary">Add</Button></Link>
@@ -66,7 +90,7 @@ export default function Home() {
         )}
 
         </div>
-
+        {error && <p className="text-red-500 text-center">{error}</p>}
         <Table>
           <TableCaption>List of Items for Shopping List</TableCaption>
           <TableHeader>
@@ -82,8 +106,9 @@ export default function Home() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {items.map((item: any) => (
+            {filteredItems.map((item: Item) => (
               <TableRow key={item._id}>
+                
                 <TableCell className="font-bold">{item.name}</TableCell>
                 <TableCell>{item.description}</TableCell>
                 <TableCell>{item.price}</TableCell>
