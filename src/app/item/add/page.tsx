@@ -9,10 +9,7 @@ import { useState } from "react";
 const Page = () => {
     const {data:session} = useSession();
     const router = useRouter();
-
-    if(!session){
-        redirect("/login");
-    }
+    
     const [name, setName] = useState<string>("")
     const [description, setDescription] = useState<string>("")
     const [price, setPrice] = useState<number>(0)
