@@ -1,10 +1,9 @@
 import NextAuth,{NextAuthOptions} from "next-auth";
-import GoogleProvider from 'next-auth/providers/google';
+
 import User from "@/models/user";   
-import connectDB from "@/lib/db";
+
 import Github from "next-auth/providers/github";
-import Credentials from "next-auth/providers/credentials";
-import { NextApiHandler } from "next";
+
 
 const authOptions: NextAuthOptions = {
     providers : [
@@ -17,7 +16,7 @@ const authOptions: NextAuthOptions = {
         
 
     ],
-    secret: process.env.NEXT_AUTH_SECRET,
+    secret: process.env.NEXTAUTH_SECRET,
     session: {
         strategy: "jwt",
     },
