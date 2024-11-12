@@ -1,12 +1,8 @@
 import NextAuth,{NextAuthOptions} from "next-auth";
-import GoogleProvider from 'next-auth/providers/google';
 import User from "@/models/user";   
-import connectDB from "@/lib/db";
 import Github from "next-auth/providers/github";
-import Credentials from "next-auth/providers/credentials";
-import { NextApiHandler } from "next";
 
-const authOptions: NextAuthOptions = {
+export  const authOptions: NextAuthOptions = {
     providers : [
     Github({
             clientId: process.env.GITHUB_CLIENT_ID as string,
@@ -53,5 +49,3 @@ const authOptions: NextAuthOptions = {
     }
    
 }
-const handler = NextAuth(authOptions);
-export {handler as GET , handler as POST};
